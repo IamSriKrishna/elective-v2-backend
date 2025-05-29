@@ -58,6 +58,10 @@ func main() {
 		},
 	})
 
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*", // for testing, restrict in production
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+	}))
 	// Middleware
 	app.Use(logger.New())
 	app.Use(cors.New())
