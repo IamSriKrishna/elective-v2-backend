@@ -1,6 +1,6 @@
 module github.com/sk/elective
 
-go 1.24.3
+go 1.24.2
 
 require (
 	gorm.io/driver/postgres v1.6.0
