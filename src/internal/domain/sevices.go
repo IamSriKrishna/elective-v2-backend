@@ -3,7 +3,7 @@ package domain
 import "github.com/sk/elective/src/internal/repository/models"
 
 type AuthService interface {
-    Register(registerNo, password, department string) (*models.Student, error)
+    Register(registerNo, password, department, name string) (*models.Student, error)
     Login(registerNo, password string) (string, *models.Student, error)
     ValidateToken(token string) (*models.Student, error)
 }
