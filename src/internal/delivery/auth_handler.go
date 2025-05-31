@@ -1,3 +1,4 @@
+
 package delivery
 
 import (
@@ -29,6 +30,11 @@ type LoginRequest struct {
 
 type AuthResponse struct {
 	Token   string      `json:"token"`
+	Student interface{} `json:"student"`
+}
+
+type ValidateResponse struct {
+	Valid   bool        `json:"valid"`
 	Student interface{} `json:"student"`
 }
 
@@ -79,6 +85,34 @@ func (h *AuthHandler) Login(c *fiber.Ctx) error {
 
 	return c.JSON(AuthResponse{
 		Token: token,
+		Student: fiber.Map{
+			"id":          student.ID,
+			"register_no": student.RegisterNo,
+			"department":  student.Department,
+			"name":        student.Name,
+		},
+	})
+}
+
+// Add this new method for token validation
+func (h *AuthHandler) ValidateToken(c *fiber.Ctx) error {
+	authHeader := c.Get("Authorization")
+	if authHeader == "" {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": "Authorization header required",
+		})
+	}
+
+	tokenString := strings.Replace(authHeader, "Bearer ", "", 1)
+	student, err := h.authService.ValidateToken(tokenString)
+	if err != nil {
+		return c.Status(fiber.StatusUnauthorized).JSON(fiber.Map{
+			"error": "Invalid or expired token",
+		})
+	}
+
+	return c.JSON(ValidateResponse{
+		Valid: true,
 		Student: fiber.Map{
 			"id":          student.ID,
 			"register_no": student.RegisterNo,

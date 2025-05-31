@@ -64,7 +64,6 @@ func main() {
 	}))
 	// Middleware
 	app.Use(logger.New())
-	app.Use(cors.New())
 
 	// Routes
 	api := app.Group("/api/v1")
@@ -73,6 +72,7 @@ func main() {
 	auth := api.Group("/auth")
 	auth.Post("/register", authHandler.Register)
 	auth.Post("/login", authHandler.Login)
+	auth.Get("/validate", authHandler.ValidateToken) // Add this line
 
 	// Protected routes
 	protected := api.Group("/", authHandler.AuthMiddleware)
