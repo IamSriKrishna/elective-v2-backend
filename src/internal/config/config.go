@@ -2,7 +2,6 @@ package config
 
 import (
 	"os"
-	"time"
 )
 
 type Config struct {
@@ -21,7 +20,6 @@ type DataBaseConfig struct {
 
 type JWTConfig struct {
 	Secret     string
-	Expiration time.Duration
 }
 
 type ServerConfig struct {
@@ -39,7 +37,6 @@ func LoadConfig() *Config {
 		},
 		JWT: JWTConfig{
 			Secret:     getEnv("JWT_SECRET"),
-			Expiration: 24 * time.Hour,
 		},
 		Server: ServerConfig{
 			Port: getEnv("SERVER_PORT"),

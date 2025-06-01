@@ -83,8 +83,7 @@ func (s *authService) Login(registerNo, password string) (string, *models.Studen
 		Department: student.Department,
 		Name:       student.Name,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(s.jwtConfig.Expiration)),
-			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			IssuedAt: jwt.NewNumericDate(time.Now()),
 		},
 	}
 
